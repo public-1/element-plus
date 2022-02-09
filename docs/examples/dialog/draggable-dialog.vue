@@ -3,7 +3,7 @@
     >Click to open Dialog
   </el-button>
 
-  <el-dialog v-model="dialogVisible" title="Tips" width="30%" draggable>
+  <el-dialog v-model="dialogVisible" title="Tips" width="30%">
     <span>It's a draggable Dialog</span>
     <template #footer>
       <span class="dialog-footer">
