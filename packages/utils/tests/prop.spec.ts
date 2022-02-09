@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
+import { defineComponent } from 'vue'
+import { mount } from '@vue/test-utils'
 import { expectTypeOf } from 'expect-type'
 import { buildProp, definePropType, mutable, keyOf, buildProps } from '../props'
 import type { propKey } from '../props'
@@ -435,5 +437,17 @@ describe('buildProps', () => {
         [propKey]: true
       }
     }>()
+  })
+})
+
+describe('runtime', () => {
+  it('default value', () => {
+    const Foo = defineComponent({
+      props: buildProps({
+        bar: { type: Boolean },
+      }),
+      template: `{{ $props }}`,
+    })
+    expect(mount(Foo).props().bar).toBe(false)
   })
 })

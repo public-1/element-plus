@@ -1,5 +1,5 @@
 import { warn } from 'vue'
-import { isObject } from '@vue/shared'
+import { isObject, hasOwn } from '@vue/shared'
 import { fromPairs } from 'lodash-unified'
 import type { ExtractPropTypes, PropType } from '@vue/runtime-core'
 import type { Mutable } from './types'
@@ -139,17 +139,19 @@ export function buildProp<
         }
       : undefined
 
-  return {
+  const prop: any = {
     type:
       typeof type === 'object' &&
       Object.getOwnPropertySymbols(type).includes(wrapperKey)
         ? type[wrapperKey]
         : type,
     required: !!required,
-    default: defaultValue,
     validator: _validator,
     [propKey]: true,
-  } as unknown as BuildPropReturn<T, D, R, V, C>
+  }
+  if (hasOwn(option, 'default')) prop.default = defaultValue
+
+  return prop as BuildPropReturn<T, D, R, V, C>
 }
 
 type NativePropType = [
